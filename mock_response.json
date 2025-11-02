@@ -1,0 +1,109 @@
+{
+    "vocabulary": [
+        {
+            "word": "Insecurity",
+            "meaning": "Lack of security or certainty, especially regarding food supply."
+        },
+        {
+            "word": "Sustainability",
+            "meaning": "The ability to be maintained at a certain level; avoiding depletion of natural resources."
+        },
+        {
+            "word": "Vulnerability",
+            "meaning": "The state of being exposed to harm or danger."
+        },
+        {
+            "word": "Hydroponic",
+            "meaning": "A method of growing plants without soil, using mineral nutrient solutions in water."
+        },
+        {
+            "word": "Resilience",
+            "meaning": "The ability to recover quickly from difficulties."
+        },
+        {
+            "word": "Ecological fabric",
+            "meaning": "The natural system and relationships within an environment."
+        },
+        {
+            "word": "Urban heat island effect",
+            "meaning": "When urban areas are significantly warmer than their surrounding rural areas due to human activities."
+        },
+        {
+            "word": "Scalability",
+            "meaning": "The ability of a system to handle a growing amount of work or to be enlarged."
+        },
+        {
+            "word": "Complement",
+            "meaning": "To add to something in a way that enhances or improves it."
+        }
+    ],
+    "title": "The Rise of Urban Farming: Benefits, Hurdles, and Future Prospects",
+    "main_idea": {
+        "direct": "Urban farming offers promising solutions to food insecurity, climate change, and sustainability challenges in cities, providing environmental and social benefits, despite facing practical hurdles like space and cost, which are being addressed through innovation and collaboration.",
+        "indirect": "Urban farming is not merely about producing food locally; it's a transformative movement that fosters urban resilience, community empowerment, and environmental consciousness, aiming to reshape cities into more sustainable and livable environments by complementing traditional agriculture."
+    },
+    "facts_opinions_inferences": [
+        {
+            "type": "Fact",
+            "text": "Cities have become increasingly dependent on external food sources that travel hundreds or even thousands of kilometers."
+        },
+        {
+            "type": "Fact",
+            "text": "Urban farms contribute to reducing the urban heat island effect, as plants absorb carbon dioxide and release oxygen."
+        },
+        {
+            "type": "Inference",
+            "text": "Urban farming fosters community empowerment and environmental consciousness beyond mere convenience."
+        },
+        {
+            "type": "Inference",
+            "text": "Without proper policies and zoning laws, many urban farming projects risk being temporary or unsustainable."
+        },
+        {
+            "type": "Opinion",
+            "text": "The future of urban farming looks increasingly bright."
+        }
+    ],
+    "transitions": [
+        {
+            "src": "In recent years, urban farming has emerged as a promising solution to the challenges of food insecurity, climate change, and sustainability in modern cities.",
+            "dest": "With populations rapidly expanding, cities have become increasingly dependent on external food sources that travel hundreds or even thousands of kilometers before reaching consumers.",
+            "relation": "causal"
+        },
+        {
+            "src": "Urban farming, however, seeks to reverse this dependency by bringing food production closer to consumers.",
+            "dest": "This shift is not just about convenience—it’s a movement toward resilience, community empowerment, and environmental consciousness.",
+            "relation": "logical"
+        },
+        {
+            "src": "Beyond food production, urban farming is reshaping the social and ecological fabric of cities.",
+            "dest": "Many community gardens double as educational hubs where residents learn about composting, nutrition, and the value of biodiversity.",
+            "relation": "sequential"
+        },
+        {
+            "src": "For many, tending to a garden becomes a meditative act—a way to slow down in a city that rarely stops moving.",
+            "dest": "However, urban farming faces significant challenges that must be addressed to realize its full potential.",
+            "relation": "contrastive"
+        },
+        {
+            "src": "Despite these challenges, ongoing innovations in agricultural technology and growing public awareness continue to fuel optimism.",
+            "dest": "As governments, NGOs, and private entrepreneurs collaborate to promote local food systems, the future of urban farming looks increasingly bright.",
+            "relation": "causal"
+        }
+    ],
+    "keywords": [
+        "Urban farming",
+        "Food insecurity",
+        "Sustainability",
+        "Climate change",
+        "Local food production",
+        "Community empowerment",
+        "Environmental consciousness",
+        "Challenges",
+        "Innovations",
+        "Vertical farming",
+        "Collaboration",
+        "Hybrid food model"
+    ],
+    "purpose": "To inform readers about the significance of urban farming, detailing its benefits for cities and residents, acknowledging its current challenges, and highlighting its promising future potential as a sustainable and complementary food production system."
+}
