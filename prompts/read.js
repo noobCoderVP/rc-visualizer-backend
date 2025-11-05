@@ -13,7 +13,7 @@ Take a passage as input and generate an HTML-based reading aid where:
 
 The HTML output should:
 - Wrap difficult/important words in:  
-  \'<em class="highlighted-word" title="simple explanation here">word</em>\'
+  \'<em class="highlighted-word" data-tooltip="simple explanation here">word</em>\'
 - Add explanations for each *informative sentence* as:  
   \'<span class="explanation">simple explanation of sentence meaning</span>\'
 - Do **not** add explanations for filler or transition-only sentences.
@@ -24,7 +24,7 @@ The HTML output should:
 **S – Steps**
 1. **Read and Split:** Break the passage into individual sentences or logical segments.
 2. **Highlight:** Identify *key* or *difficult* words — those critical for comprehension or vocabulary learning.
-3. **Explain Vocabulary:** Add a 'title' tooltip explaining each highlighted word simply.
+3. **Explain Vocabulary:** Add a 'data-tooltip' tooltip explaining each highlighted word simply.
 4. **Explain Informative Sentences:** After such sentences, add a short '<span class="explanation">...</span>'' explaining what the reader should mentally visualize or infer.
 5. **Simplify:** Keep vocabulary and explanations short, clear, and relevant for CAT-level reading.
 6. **Output:** Return only HTML — no Markdown, JSON, or extra text.
@@ -49,8 +49,8 @@ Input:
 
 Output:
 <p>
-  <em class="highlighted-word" title="Former U.S. vice president">Dick Cheney</em>, 
-  the <em class="highlighted-word" title="second-highest political position in the U.S. government">vice-president</em>, 
+  <em class="highlighted-word" data-tooltip="Former U.S. vice president">Dick Cheney</em>, 
+  the <em class="highlighted-word" data-tooltip="second-highest political position in the U.S. government">vice-president</em>, 
   declared that he was fully satisfied with it from his point of view.  
   <span class="explanation">He expressed complete approval based on his personal judgment.</span>
 </p>
