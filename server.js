@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import Ajv from "ajv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { RC_ANALYSIS_PROMPT } from "./prompt.js";
+import { RC_ANALYSIS_PROMPT } from "./prompts/analyze.js";
+import { RC_MINDMAP_PROMPT } from "./prompts/read.js";
+import { RC_THOUGHT_SOLVER_PROMPT } from "./prompts/solve.js";
 
 dotenv.config();
 
@@ -17,10 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 // Initialize Gemini client
 // ------------------------------
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // or gemini-2.5-flash
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // ------------------------------
-// AJV Schema
+// AJV Schema for /analyze
 // ------------------------------
 const schema = {
     type: "object",
@@ -101,35 +103,35 @@ const ajv = new Ajv();
 const validate = ajv.compile(schema);
 
 // ------------------------------
-// POST /analyze
+// Helper Function to call Gemini
+// ------------------------------
+async function generateWithModel(prompt) {
+    const result = await model.generateContent(prompt);
+    return result.response.text().trim();
+}
+
+// ------------------------------
+// 1️⃣ POST /analyze
 // ------------------------------
 app.post("/analyze", async (req, res) => {
     try {
         const { passage } = req.body;
-        if (!passage) {
+        if (!passage)
             return res.status(400).json({ error: "Passage is required" });
-        }
 
         const prompt = `${RC_ANALYSIS_PROMPT}\n\nPassage:\n${passage}`;
+        const responseText = await generateWithModel(prompt);
+        console.log("🤖 /analyze Gemini response:", responseText);
 
-        // Call Gemini
-        let result = await model.generateContent(prompt);
-        const responseText = result.response.text().trim();
-        console.log("🤖 Gemini response:", responseText);
-
-        // Clean and extract JSON
         const cleanText = responseText.replace(/```json|```/g, "").trim();
         const start = cleanText.indexOf("{");
         const end = cleanText.lastIndexOf("}");
-        if (start === -1 || end === -1) {
-            return res.status(400).json({ error: "No valid JSON found in AI response" });
-        }
+        if (start === -1 || end === -1)
+            return res.status(400).json({ error: "No valid JSON found" });
 
-        const jsonString = cleanText.slice(start, end + 1);
-        const parsed = JSON.parse(jsonString); // ✅ fixed variable name
+        const parsed = JSON.parse(cleanText.slice(start, end + 1));
+        const valid = validate(parsed);
 
-        // Validate schema
-        const valid = validate(parsed); // ✅ now refers to parsed correctly
         if (!valid) {
             console.warn("⚠️ Schema validation failed:", validate.errors);
             return res.status(422).json({
@@ -139,16 +141,76 @@ app.post("/analyze", async (req, res) => {
             });
         }
 
-        // ✅ Send validated structured output
         res.json(parsed);
-
     } catch (err) {
-        console.error("❌ Server error:", err);
-        res.status(500).json({ error: "Internal server error", details: err.message });
+        console.error("❌ /analyze error:", err);
+        res.status(500).json({ error: err.message });
     }
 });
 
+// ------------------------------
+// 2️⃣ POST /mindmap
+// ------------------------------
+// Input: { passage }
+// Output: HTML (string)
+app.post("/mindmap", async (req, res) => {
+    try {
+        const { passage } = req.body;
+        if (!passage)
+            return res.status(400).json({ error: "Passage is required" });
+
+        const prompt = `${RC_MINDMAP_PROMPT}\n\nPassage:\n${passage}`;
+        const responseText = await generateWithModel(prompt);
+        console.log("🤖 /mindmap Gemini response:", responseText);
+
+        // Clean HTML from code block wrappers if present
+        const cleanHTML = responseText.replace(/```html|```/g, "").trim();
+
+        res.send(cleanHTML);
+    } catch (err) {
+        console.error("❌ /mindmap error:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ------------------------------
+// 3️⃣ POST /solve
+// ------------------------------
+// Input: { passage, questions }
+// Output: JSON reasoning structure
+app.post("/solve", async (req, res) => {
+    try {
+        const { passage, questions } = req.body;
+        if (!passage || !questions)
+            return res
+                .status(400)
+                .json({ error: "Passage and questions are required" });
+
+        const combinedQuestions =
+            Array.isArray(questions) && questions.length > 0
+                ? questions.map((q, i) => `${i + 1}. ${q}`).join("\n")
+                : questions;
+
+        const prompt = `${RC_THOUGHT_SOLVER_PROMPT}\n\nPassage:\n${passage}\n\nQuestions:\n${combinedQuestions}`;
+        const responseText = await generateWithModel(prompt);
+        console.log("🤖 /solve Gemini response:", responseText);
+
+        const cleanText = responseText.replace(/```json|```/g, "").trim();
+        const start = cleanText.indexOf("{");
+        const end = cleanText.lastIndexOf("}");
+        if (start === -1 || end === -1)
+            return res.status(400).json({ error: "No valid JSON found" });
+
+        const parsed = JSON.parse(cleanText.slice(start, end + 1));
+        res.json(parsed);
+    } catch (err) {
+        console.error("❌ /solve error:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 // ------------------------------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Gemini Server running on port ${PORT}`));
+app.listen(PORT, () =>
+    console.log(`✅ Gemini RC Server running on port ${PORT}`)
+);
