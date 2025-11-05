@@ -121,7 +121,6 @@ app.post("/analyze", async (req, res) => {
 
         const prompt = `${RC_ANALYSIS_PROMPT}\n\nPassage:\n${passage}`;
         const responseText = await generateWithModel(prompt);
-        console.log("🤖 /analyze Gemini response:", responseText);
 
         const cleanText = responseText.replace(/```json|```/g, "").trim();
         const start = cleanText.indexOf("{");
@@ -161,7 +160,6 @@ app.post("/mindmap", async (req, res) => {
 
         const prompt = `${RC_MINDMAP_PROMPT}\n\nPassage:\n${passage}`;
         const responseText = await generateWithModel(prompt);
-        console.log("🤖 /mindmap Gemini response:", responseText);
 
         // Clean HTML from code block wrappers if present
         const cleanHTML = responseText.replace(/```html|```/g, "").trim();
@@ -193,7 +191,6 @@ app.post("/solve", async (req, res) => {
 
         const prompt = `${RC_THOUGHT_SOLVER_PROMPT}\n\nPassage:\n${passage}\n\nQuestions:\n${combinedQuestions}`;
         const responseText = await generateWithModel(prompt);
-        console.log("🤖 /solve Gemini response:", responseText);
 
         const cleanText = responseText.replace(/```json|```/g, "").trim();
         const start = cleanText.indexOf("{");
